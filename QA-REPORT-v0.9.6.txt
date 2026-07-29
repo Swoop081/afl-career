@@ -1,0 +1,14 @@
+AFL Career Simulator v0.9.6 QA
+
+Implemented:
+- Goal-kicking meter now opens as a fixed full-screen match sequence.
+- Score, distance, angle, wind direction and wind strength remain visible without scrolling.
+- Posts and moving marker occupy the central screen area.
+- Large KICK control remains accessible above the iPhone safe-area inset.
+- Existing goal, behind and out-on-the-full resolution is preserved.
+- Normal match view resumes after the result sequence.
+
+Checks:
+- JavaScript syntax validated with Node.js.
+- Required web-app files present.
+- Service-worker cache and manifest version updated to v0.9.6.
