@@ -1,0 +1,32 @@
+AFL Career v0.9.1 — Simulation QA Report
+
+Automated tests completed:
+- 10,000 simulated fixtures (20,000 team scores)
+- 20,000 sampled real-player performances
+- 10,000 played-match engine score-flow simulations
+
+Results after fixes:
+- Average simulated team score: 75 points
+- Median simulated team score: 75 points
+- 10th–90th percentile: 58–91 points
+- Average scoring shots per team: 21.2
+- No simulated team score exceeded 160 points in the 10,000-fixture test
+- Maximum simulated team goals: 16
+- Maximum simulated individual goals: 6 in the off-screen vote model; normal match allocation caps key forwards at 7 and the created player at 8
+- Impossible goals greater than disposals: 0
+- Sampled elite midfielders averaged 31.6 disposals
+- Elite midfielders recorded 35+ disposals in 25.6% of sampled games
+- Elite midfielder maximum: 42 disposals
+- Played-match flow averaged approximately 68 points per team, with normal variation and occasional high-scoring games
+
+Corrections made:
+- Rebalanced simulated scoring-shot totals
+- Increased played-match scoring frequency to realistic levels
+- Revalidated goals against team totals
+- Enforced position-based individual goal ceilings
+- Recomputed player impact after final goal distribution
+- Enforced goals <= kicks <= disposals consistency
+- Updated cache and save migration to v0.9.1
+
+Limitations:
+Automated simulation validates match-engine distributions and internal stat consistency. Manual phone testing is still required for touch controls, animation timing, audio, vibration and visual layout on each device/browser.

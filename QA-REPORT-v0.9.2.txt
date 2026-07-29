@@ -1,0 +1,23 @@
+AFL Career v0.9.2 — Structural Realism QA
+
+Validation performed
+- JavaScript syntax validated with Node.js.
+- Match-day selection now contains 23 players per club.
+- The created player replaces the lowest-rated selected player in the same position group where possible.
+- Interactive matches retain continuous background stat accumulation throughout each quarter.
+- Final reconciliation only completes remaining team totals and no longer rebuilds every player's game from scratch.
+- Goals remain constrained by disposals and kicks.
+- Best-on-ground presentation now displays statistics relevant to each position.
+- Persistent season records are maintained for played and simulated matches.
+- League screen now displays season disposal-average leaders.
+- Finals bracket validated as:
+  Week 1: 1v4 QF, 2v3 QF, 5v8 EF, 6v7 EF
+  Week 2: QF losers v EF winners
+  Week 3: QF winners v SF winners
+  Week 4: Grand Final
+- Qualifying-final winners receive the double chance and advance directly to preliminary finals.
+- Elimination-final losers are removed immediately.
+- Existing v0.9.1 careers migrate to the new season-stat structure.
+
+Known scope
+- This is a structural realism patch. Full weekly selection, reserves, training, contract negotiation, trades and list evolution remain planned for v1.0 and later milestones.
