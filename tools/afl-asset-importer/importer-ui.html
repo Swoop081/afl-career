@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AFL Career Asset Importer</title>
+<style>
+:root{font-family:Inter,Segoe UI,Arial,sans-serif;color:#f6f8fb;background:#071723;color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:linear-gradient(150deg,#0a2738,#06121d 58%,#101a28);padding:28px}.wrap{max-width:900px;margin:auto}.top{display:flex;gap:16px;align-items:center;margin-bottom:24px}.logo{width:70px;height:70px;border-radius:22px;background:#df1735;display:grid;place-items:center;font-weight:900;font-size:28px;box-shadow:0 14px 35px #0007}.title h1{margin:0;font-size:30px}.title p{margin:5px 0 0;color:#aab9c7}.panel{background:#0d293a;border:1px solid #315268;border-radius:24px;padding:24px;margin-bottom:18px;box-shadow:0 18px 55px #0005}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:650px){body{padding:14px}.grid{grid-template-columns:1fr}.title h1{font-size:24px}}label{display:block;font-size:13px;text-transform:uppercase;letter-spacing:.12em;color:#ffc83d;font-weight:800;margin-bottom:8px}select{width:100%;border:1px solid #46667a;background:#081c29;color:white;border-radius:14px;padding:14px;font-size:16px}.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.mode{border:1px solid #46667a;background:#112f42;color:#fff;padding:15px 10px;border-radius:14px;font-weight:800;cursor:pointer}.mode.active{background:#df1735;border-color:#ff6a7f}.checks{display:flex;gap:18px;flex-wrap:wrap;margin-top:20px}.checks label{display:flex;align-items:center;gap:8px;color:#d7e1e9;text-transform:none;letter-spacing:0;margin:0;font-weight:600}.checks input{width:18px;height:18px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}.primary,.secondary{border:0;border-radius:16px;padding:16px 22px;font-size:17px;font-weight:900;cursor:pointer}.primary{background:#ffcf39;color:#18202a;flex:1;min-width:220px}.primary:disabled{opacity:.45;cursor:not-allowed}.secondary{background:#19394c;color:white;border:1px solid #46667a}.status{display:flex;align-items:center;gap:10px;font-weight:800}.dot{width:12px;height:12px;border-radius:50%;background:#55d989}.dot.running{background:#ffc83d;animation:pulse 1s infinite}@keyframes pulse{50%{opacity:.35}}pre{height:330px;overflow:auto;white-space:pre-wrap;background:#030b11;border:1px solid #274759;border-radius:16px;padding:16px;color:#c9e6d5;font:13px/1.5 Consolas,monospace;margin:14px 0 0}.note{color:#aab9c7;font-size:14px;line-height:1.5}.success{color:#67e59a}.error{color:#ff7184}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div class="logo">AFL</div><div class="title"><h1>Career Asset Importer</h1><p>Download player photos and club logos directly into the game.</p></div></div>
+  <section class="panel">
+    <div class="grid">
+      <div><label>What to import</label><div class="modes"><button class="mode" data-mode="players">Players</button><button class="mode" data-mode="logos">Logos</button><button class="mode active" data-mode="all">Both</button></div></div>
+      <div><label for="club">Club</label><select id="club"><option value="ALL">All 18 clubs</option><option>ADE</option><option>BRI</option><option>CAR</option><option>COL</option><option>ESS</option><option>FRE</option><option>GEE</option><option>GCS</option><option>GWS</option><option>HAW</option><option>MEL</option><option>NTH</option><option>PTA</option><option>RIC</option><option>STK</option><option>SYD</option><option>WCE</option><option>WBD</option></select></div>
+    </div>
+    <div class="checks"><label><input id="force" type="checkbox"> Replace existing files</label><label><input id="headed" type="checkbox"> Show browser while importing</label><label><input id="dry" type="checkbox"> Test only — do not save</label></div>
+    <div class="actions"><button id="run" class="primary">Start Import</button><button id="open" class="secondary">Open Assets Folder</button></div>
+    <p class="note">On the first run, the required components and browser engine install automatically. This can take several minutes. Leave this window open until completion.</p>
+  </section>
+  <section class="panel"><div class="status"><span id="dot" class="dot"></span><span id="status">Ready</span></div><pre id="log">Ready. Choose what to import, then click Start Import.\n</pre></section>
+</div>
+<script>
+let mode='all';let running=false;const log=document.getElementById('log'),statusEl=document.getElementById('status'),dot=document.getElementById('dot'),run=document.getElementById('run');
+document.querySelectorAll('.mode').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.mode').forEach(b=>b.classList.remove('active'));btn.classList.add('active');mode=btn.dataset.mode;}));
+function setRunning(value,text){running=value;run.disabled=value;run.textContent=value?'Import Running…':'Start Import';dot.classList.toggle('running',value);if(text)statusEl.textContent=text;}
+const events=new EventSource('/events');events.addEventListener('log',e=>{const d=JSON.parse(e.data);log.textContent+=d.text;log.scrollTop=log.scrollHeight;});events.addEventListener('status',e=>{const d=JSON.parse(e.data);setRunning(d.running,d.text);});events.addEventListener('done',e=>{const d=JSON.parse(e.data);setRunning(false,d.ok?'Import complete':'Import failed');statusEl.className=d.ok?'success':'error';});
+run.addEventListener('click',async()=>{if(running)return;statusEl.className='';log.textContent='Starting…\n';setRunning(true,'Starting importer…');const body={mode,club:document.getElementById('club').value,force:document.getElementById('force').checked,headed:document.getElementById('headed').checked,dryRun:document.getElementById('dry').checked};try{const r=await fetch('/api/run',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});if(!r.ok){const d=await r.json();throw new Error(d.error)}}catch(e){setRunning(false,'Could not start');log.textContent+=`ERROR: ${e.message}\n`;}});
+document.getElementById('open').addEventListener('click',()=>fetch('/api/open-assets',{method:'POST'}));
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "afl-career-asset-importer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Downloads AFL.com.au player portraits and club logos for AFL Career Simulator.",
+  "scripts": {
+    "setup": "playwright install chromium",
+    "players": "node import-assets.js --players",
+    "logos": "node import-assets.js --logos",
+    "all": "node import-assets.js --all",
+    "dry-run": "node import-assets.js --all --dry-run",
+    "ui": "node launcher-server.js"
+  },
+  "dependencies": {
+    "playwright": "^1.54.1",
+    "sharp": "^0.34.3"
+  }
+}
