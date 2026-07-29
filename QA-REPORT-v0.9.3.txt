@@ -1,0 +1,27 @@
+AFL CAREER v0.9.3 — IMPLEMENTATION & QA REPORT
+
+Implemented:
+- Six-stage weekly career loop: recovery, training, club event, selection, match, review.
+- Fitness, fatigue, soreness, coach trust and rolling form.
+- Training focus with persistent XP and attribute improvement.
+- Selection outcomes: selected, starting substitute, emergency, omitted and unavailable.
+- Position-specific match roles.
+- Reserves match pathway for omitted/emergency players.
+- Expanded injury/availability integration with weekly loop.
+- Post-match rating, form, trust, fatigue and soreness updates.
+- Auto Assign Stats button at character creation.
+- Optional player photo upload, client-side resize/compression and local save storage.
+- Uploaded photo appears in draft, career hub and player profile.
+- Existing v0.9.2 saves migrate into the weekly systems.
+
+Static QA completed:
+- JavaScript syntax validated with Node.js.
+- Service-worker cache advanced to afl-career-v0.9.3.
+- Manifest version advanced to v0.9.3.
+- GitHub Pages root structure and .nojekyll preserved.
+
+Manual device QA still recommended:
+- iPhone photo picker and local-storage quota behaviour.
+- Touch layout on small screens.
+- Full 23-round weekly-loop balance.
+- Selection frequency for low/high form careers.
