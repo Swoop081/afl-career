@@ -21,3 +21,15 @@ button.danger:hover{filter:brightness(1.08)}
 
 /* v0.9.4 selected teams transition */
 .selected-teams .team-lists{margin:18px 0;text-align:left}.team-sheet{border-top:4px solid;padding-top:12px}.selected-player{padding:12px;margin:10px 0;border-radius:12px;background:rgba(255,255,255,.08);display:flex;flex-direction:column;gap:4px}.selected-player span{font-weight:800;font-size:1.05rem}.selected-player b{font-size:.82rem;color:#f5c84b}.team-sheet .listitem{padding:8px 0}
+
+
+/* v0.9.5 */
+.event-copy{z-index:20!important;background:#071c27!important;opacity:1!important;box-shadow:0 8px 24px rgba(0,0,0,.38)}
+.player-dot,.ball-sprite{z-index:3!important}.oval-lines,.crowd{z-index:1}.event-copy h3,.event-copy .eyebrow{position:relative;z-index:21}
+.goal-meter{position:relative;height:130px;margin:18px 0 12px;border-radius:18px;background:linear-gradient(180deg,#183f29,#0d281b);overflow:hidden;border:2px solid rgba(255,255,255,.18)}
+.goal-meter:before{content:'';position:absolute;left:0;right:0;top:64px;height:3px;background:rgba(255,255,255,.18)}
+.goal-meter .post{position:absolute;bottom:20px;width:5px;background:#fff;border-radius:5px;box-shadow:0 0 7px rgba(255,255,255,.65)}
+.goal-meter .post.goal{height:88px}.goal-meter .post.behind{height:58px}.goal-meter .left{left:24%}.goal-meter .leftgoal{left:38%}.goal-meter .rightgoal{left:62%}.goal-meter .right{left:76%}
+.kick-marker{position:absolute;left:50%;bottom:12px;width:18px;height:105px;transform:translateX(-50%);border-radius:12px;background:#ffd43b;box-shadow:0 0 18px rgba(255,212,59,.9)}
+.wind-readout{text-align:center;font-weight:900;letter-spacing:.08em;color:#ffd45c;padding:10px;border-radius:12px;background:rgba(255,255,255,.06)}
+.action-panel button{margin-top:12px}.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}

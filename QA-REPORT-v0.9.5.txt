@@ -1,0 +1,15 @@
+AFL Career Simulator v0.9.5 QA
+
+Implemented:
+- Opening career starts with training, zero fatigue and zero soreness.
+- Home club venue mapping for all 18 clubs.
+- Position-specific forward, midfielder, defender and ruck event pools.
+- Ruck added to character creation and match hitout mechanic.
+- Off-ball passages and quiet-period commentary based on team strength and territory.
+- Exactly three context-sensitive decisions with repeat cooldown.
+- Opaque event panel above field markers.
+- Weather and directional wind generated per match.
+- Interactive four-post goal meter with goal, behind and out-on-the-full outcomes.
+- Goal attempts still require a mark or clean gather inside forward 50.
+
+Static checks completed: JavaScript syntax, package structure, version/cache references.
