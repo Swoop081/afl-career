@@ -1,0 +1,16 @@
+AFL Career Simulator v0.9.4 QA Report
+
+Implemented
+- Added a Selected Teams transition screen before a selected player enters Match Day.
+- Goal and snap actions now require possession gained by a mark or clean gather inside forward 50.
+- Pressure, spoil, body and blocking actions no longer incorrectly grant possession.
+- Added a second shot validation inside kickSlider to prevent direct or stale-state goal attempts.
+- Possession source is cleared after disposals, turnovers, scores, quarter changes and new events.
+- Existing eight-goal match safety cap remains active.
+- Updated app, manifest and service-worker cache version to v0.9.4.
+
+Regression checks
+- Weekly selection flow continues to Match Day.
+- Omitted/emergency players continue to simulation/reserves choices.
+- Marks and gathers still open normal possession actions.
+- Defensive contest actions advance play without showing disposal/goal choices.
