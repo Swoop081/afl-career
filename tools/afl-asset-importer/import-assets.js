@@ -89,12 +89,14 @@ async function discoverPlayerLinks(page) {
   const cache = new Map();
   const pages = [
     'https://www.afl.com.au/stats/players',
-    ...Object.values(CLUBS).flatMap(c => c.slugs.map(s => `https://www.afl.com.au/clubs/${s}/players`))
+    ...Object.values(CLUBS).map(c => `https://www.afl.com.au/teams/${c.slugs[0]}`)
   ];
   for (const url of pages) {
     try {
-      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 45000 });
-      for (let i = 0; i < 5; i++) { await page.mouse.wheel(0, 1600); await sleep(350); }
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+      await page.waitForTimeout(1800);
+      await page.locator('a[href*="/players/"]').first().waitFor({ state: 'attached', timeout: 15000 }).catch(() => {});
+      for (let i = 0; i < 8; i++) { await page.mouse.wheel(0, 1800); await sleep(450); }
       const links = await page.locator('a[href*="/players/"]').evaluateAll(nodes => nodes.map(a => ({ href: a.href, text: (a.textContent || '').trim() })));
       for (const item of links) {
         const m = item.href.match(/\/players\/\d+\/([^/?#]+)/);
@@ -196,7 +198,11 @@ async function main() {
   if (importPlayers) {
     console.log('Discovering AFL player profile links…');
     linkCache = await discoverPlayerLinks(page);
-    console.log(`Discovered ${new Set(linkCache.values()).size} profile URLs.`);
+    const discoveredCount = new Set(linkCache.values()).size;
+    console.log(`Discovered ${discoveredCount} profile URLs.`);
+    if (discoveredCount === 0) {
+      throw new Error('No AFL player profiles were discovered. The importer stopped before processing players. Try Visible Browser mode and check that AFL.com.au loads normally.');
+    }
     for (let index = 0; index < players.length; index++) {
       const player = players[index];
       const slug = slugify(player.name);
@@ -239,7 +245,7 @@ async function main() {
       try {
         const override = overrides.logos?.[code];
         let sourceUrl = override?.imageUrl || null;
-        let pageUrl = override?.pageUrl || `https://www.afl.com.au/clubs/${club.slugs[0]}`;
+        let pageUrl = override?.pageUrl || `https://www.afl.com.au/teams/${club.slugs[0]}`;
         if (!sourceUrl) {
           await page.goto(pageUrl, { waitUntil: 'domcontentloaded', timeout: 45000 });
           const logo = await pickLogo(page, club);
